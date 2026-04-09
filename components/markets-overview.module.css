@@ -1,0 +1,203 @@
+.pageShell {
+  width: min(1160px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 32px 0 48px;
+  color: var(--text);
+}
+
+.hero,
+.groupCard {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+}
+
+.hero {
+  padding: 32px;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.hero h1,
+.groupTitle {
+  margin: 0;
+  font-family: "DM Serif Display", serif;
+  font-weight: 400;
+}
+
+.hero h1 {
+  font-size: clamp(2.6rem, 6vw, 4.8rem);
+}
+
+.lead,
+.groupDescription,
+.hero small {
+  color: var(--muted);
+}
+
+.lead {
+  max-width: 760px;
+  line-height: 1.8;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.heroActions a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 800;
+  background: linear-gradient(135deg, #dfbd70, #b98c2b);
+  color: #09101a;
+}
+
+.statusBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 18px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.statusBar small {
+  color: var(--muted);
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  font-weight: 700;
+}
+
+.statusDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.statusPositive {
+  color: var(--mint);
+  border-color: rgba(80, 210, 155, 0.18);
+}
+
+.statusNeutral {
+  color: #7c91b7;
+  border-color: rgba(124, 145, 183, 0.18);
+}
+
+.statusWarning {
+  color: var(--gold);
+  border-color: rgba(223, 189, 112, 0.2);
+}
+
+.groupStack {
+  display: grid;
+  gap: 20px;
+  margin-top: 22px;
+}
+
+.groupCard {
+  padding: 26px;
+}
+
+.groupHeader {
+  margin-bottom: 18px;
+}
+
+.groupTitle {
+  font-size: 2rem;
+}
+
+.groupGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.marketCard {
+  padding: 18px;
+  border-radius: 22px;
+  background: rgba(10, 20, 34, 0.96);
+  border: 1px solid var(--line);
+}
+
+.marketCard span,
+.marketCard small {
+  display: block;
+}
+
+.marketCard span,
+.marketCard small {
+  color: var(--muted);
+}
+
+.marketCard strong {
+  display: block;
+  margin: 10px 0 6px;
+  font-size: 1.7rem;
+}
+
+.positive {
+  box-shadow: inset 0 0 0 1px rgba(80, 210, 155, 0.18);
+}
+
+.negative {
+  box-shadow: inset 0 0 0 1px rgba(255, 127, 127, 0.18);
+}
+
+.neutral {
+  box-shadow: inset 0 0 0 1px rgba(216, 178, 93, 0.18);
+}
+
+.positive small {
+  color: var(--mint);
+}
+
+.negative small {
+  color: var(--rose);
+}
+
+.neutral small {
+  color: var(--gold);
+}
+
+@media (max-width: 980px) {
+  .groupGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .statusBar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 720px) {
+  .groupGrid {
+    grid-template-columns: 1fr;
+  }
+}

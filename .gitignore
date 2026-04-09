@@ -1,0 +1,16 @@
+.next
+node_modules
+out
+dist
+.cache
+.tools
+.env.local
+.env*.local
+.DS_Store
+npm-debug.log*
+.next-dev.err.log
+.next-dev.out.log
+debug.log
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
