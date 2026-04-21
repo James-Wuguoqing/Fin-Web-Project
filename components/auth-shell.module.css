@@ -1,7 +1,9 @@
 .pageShell {
   width: 100%;
+  height: 100vh;
   min-height: 100vh;
   padding: 24px;
+  overflow: hidden;
   background:
     radial-gradient(circle at top left, rgba(47, 109, 246, 0.08), transparent 28%),
     linear-gradient(180deg, #f8fafc 0%, #f4f6fa 100%);
@@ -10,7 +12,9 @@
 .workspaceFrame {
   display: grid;
   grid-template-columns: 320px minmax(0, 1fr);
+  height: calc(100vh - 48px);
   min-height: calc(100vh - 48px);
+  min-width: 0;
   border: 1px solid var(--line);
   border-radius: 28px;
   background: rgba(255, 255, 255, 0.78);
@@ -23,8 +27,10 @@
   display: flex;
   flex-direction: column;
   gap: 28px;
+  min-height: 0;
   padding: 28px 24px;
   background: rgba(248, 250, 252, 0.92);
+  overflow-y: auto;
 }
 
 .brand {
@@ -140,7 +146,9 @@
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   gap: 18px;
+  min-height: 0;
   padding: 24px;
+  overflow-y: auto;
 }
 
 .stageHeader {
@@ -241,6 +249,37 @@
   box-shadow: 0 0 0 4px rgba(47, 109, 246, 0.08);
 }
 
+.field input[aria-invalid="true"] {
+  border-color: rgba(225, 76, 108, 0.52);
+  box-shadow: 0 0 0 4px rgba(225, 76, 108, 0.08);
+}
+
+.fieldError {
+  color: #c9385a;
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.formNotice {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.formNoticeSuccess {
+  color: #167653;
+  border: 1px solid rgba(24, 168, 116, 0.18);
+  background: rgba(24, 168, 116, 0.08);
+}
+
+.formNoticeError {
+  color: #c9385a;
+  border: 1px solid rgba(225, 76, 108, 0.18);
+  background: rgba(225, 76, 108, 0.08);
+}
+
 .formActions {
   display: flex;
   flex-wrap: wrap;
@@ -267,6 +306,11 @@
   background: #245be0;
 }
 
+.primaryButton:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
 .helperCard {
   margin-top: 22px;
   padding: 18px;
@@ -287,11 +331,14 @@
 
 @media (max-width: 980px) {
   .pageShell {
+    height: auto;
     padding: 16px;
+    overflow: auto;
   }
 
   .workspaceFrame {
     grid-template-columns: 1fr;
+    height: auto;
     min-height: calc(100vh - 32px);
   }
 
@@ -301,6 +348,79 @@
 
   .formStage {
     padding: 18px;
+    overflow: visible;
+  }
+}
+
+@media (max-height: 820px) and (min-width: 981px) {
+  .pageShell {
+    padding: 16px;
+  }
+
+  .workspaceFrame {
+    height: calc(100vh - 32px);
+    min-height: calc(100vh - 32px);
+  }
+
+  .sideRail {
+    gap: 18px;
+    padding: 22px 20px;
+  }
+
+  .sideCopy h1,
+  .formCard h2 {
+    font-size: clamp(1.8rem, 2.5vw, 2.35rem);
+  }
+
+  .sideCopy p,
+  .description,
+  .helperCard p {
+    line-height: 1.65;
+  }
+
+  .metricCard {
+    padding: 12px 16px;
+  }
+
+  .metricCard strong {
+    margin: 6px 0 2px;
+    font-size: 1.28rem;
+  }
+
+  .formStage {
+    gap: 12px;
+    padding: 18px;
+  }
+
+  .stageHeader {
+    padding: 4px 6px;
+  }
+
+  .formCard {
+    padding: 24px;
+  }
+
+  .description {
+    margin-top: 10px;
+  }
+
+  .formGrid {
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .field input {
+    min-height: 46px;
+    border-radius: 14px;
+  }
+
+  .formActions {
+    margin-top: 4px;
+  }
+
+  .helperCard {
+    margin-top: 16px;
+    padding: 14px 16px;
   }
 }
 

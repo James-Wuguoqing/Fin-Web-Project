@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useDeferredValue, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { getInitialAuthValues, submitAuthRequest, validateAuthValues } from "../lib/auth-client";
 import styles from "./market-home.module.css";
 
 const tabs = [
@@ -104,12 +106,105 @@ function getStatusToneClass(tone, stylesMap) {
   return stylesMap.statusPositive;
 }
 
+function normalizeSearchValue(value = "") {
+  return String(value).trim().toLowerCase();
+}
+
+function matchesSearch(fields, query) {
+  const tokens = normalizeSearchValue(query).split(/\s+/).filter(Boolean);
+  const normalizedFields = fields.map((field) => normalizeSearchValue(field)).filter(Boolean);
+
+  return tokens.every((token) => normalizedFields.some((field) => field.includes(token)));
+}
+
+function buildSearchResults(data, query) {
+  const normalizedQuery = normalizeSearchValue(query);
+
+  if (!normalizedQuery) {
+    return [];
+  }
+
+  const navResults = navItems.flatMap((item) => [
+    {
+      id: `nav-${item.key}`,
+      type: "栏目",
+      title: item.label,
+      description: item.children.map((child) => child.label).join(" / "),
+      href: item.href,
+      fields: [item.label, item.href, ...item.children.map((child) => child.label)]
+    },
+    ...item.children.map((child) => ({
+      id: `nav-${item.key}-${child.key}`,
+      type: "视图",
+      title: `${item.label} · ${child.label}`,
+      description: `打开 ${item.label} 的 ${child.label}`,
+      href: `${item.href}?view=${child.key}`,
+      fields: [item.label, child.label, child.key]
+    }))
+  ]);
+
+  const marketResults = Object.entries(data.panels || {}).flatMap(([panelKey, items]) =>
+    (items || []).map((item) => ({
+      id: `market-${panelKey}-${item.label}`,
+      type: "市场",
+      title: item.label,
+      description: `${item.value} · ${item.change}`,
+      href: "/?view=board",
+      fields: [item.label, item.value, item.change, panelKey]
+    }))
+  );
+
+  const categoryResults = (data.marketCategories || []).map((item) => ({
+    id: `category-${item.title}`,
+    type: "分类",
+    title: item.title,
+    description: item.description,
+    href: "/markets",
+    fields: [item.title, item.description]
+  }));
+
+  const newsResults = (data.news || []).map((item) => ({
+    id: `news-${item.id}`,
+    type: "新闻",
+    title: item.title,
+    description: item.summary,
+    href: item.id ? `/news/${item.id}` : "/news",
+    fields: [
+      item.title,
+      item.summary,
+      item.source,
+      item.badge,
+      item.sentiment,
+      ...(item.topics || []),
+      ...(item.tickers || [])
+    ]
+  }));
+
+  return [...navResults, ...marketResults, ...categoryResults, ...newsResults]
+    .filter((result) => matchesSearch(result.fields, normalizedQuery))
+    .slice(0, 8);
+}
+
 export default function MarketHome({ data, initialSection = "overview", initialView = "board" }) {
+  const router = useRouter();
   const [activePanel, setActivePanel] = useState("indices");
   const [riskOff, setRiskOff] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchFocused, setSearchFocused] = useState(false);
   const [authMenuOpen, setAuthMenuOpen] = useState(false);
   const [authModal, setAuthModal] = useState(null);
+  const [authValues, setAuthValues] = useState(() => getInitialAuthValues("login"));
+  const [authErrors, setAuthErrors] = useState({});
+  const [authNotice, setAuthNotice] = useState(null);
+  const [authSubmitting, setAuthSubmitting] = useState(false);
+  const [authModalOffset, setAuthModalOffset] = useState({ x: 0, y: 0 });
+  const [authModalMaximized, setAuthModalMaximized] = useState(false);
+  const deferredSearchQuery = useDeferredValue(searchQuery);
+  const searchResults = buildSearchResults(data, deferredSearchQuery);
+  const showSearchResults = searchFocused && searchQuery.trim().length > 0;
+  const searchRef = useRef(null);
   const authMenuRef = useRef(null);
+  const authModalDragRef = useRef(null);
   const activeNav = initialSection;
   const sentimentScore = riskOff ? Math.min(data.marketSentiment.score, 42) : data.marketSentiment.score;
   const sentimentLabel = riskOff ? "Risk-Off" : data.marketSentiment.label;
@@ -176,11 +271,159 @@ export default function MarketHome({ data, initialSection = "overview", initialV
       if (!authMenuRef.current?.contains(event.target)) {
         setAuthMenuOpen(false);
       }
+
+      if (!searchRef.current?.contains(event.target)) {
+        setSearchFocused(false);
+      }
     }
 
     document.addEventListener("pointerdown", handlePointerDown);
     return () => document.removeEventListener("pointerdown", handlePointerDown);
   }, []);
+
+  function handleSearchSubmit(event) {
+    event.preventDefault();
+
+    if (searchResults[0]) {
+      setSearchFocused(false);
+      router.push(searchResults[0].href);
+    }
+  }
+
+  function handleSearchResultClick() {
+    setSearchFocused(false);
+    setSearchQuery("");
+  }
+
+  function openAuthModal(mode) {
+    setAuthModal(mode);
+    setAuthValues(getInitialAuthValues(mode));
+    setAuthErrors({});
+    setAuthNotice(null);
+    setAuthSubmitting(false);
+    setAuthModalOffset({ x: 0, y: 0 });
+    setAuthModalMaximized(false);
+  }
+
+  function closeAuthModal() {
+    setAuthModal(null);
+    setAuthErrors({});
+    setAuthNotice(null);
+    setAuthSubmitting(false);
+    setAuthModalOffset({ x: 0, y: 0 });
+    setAuthModalMaximized(false);
+    authModalDragRef.current = null;
+  }
+
+  function restoreAuthModalSize() {
+    setAuthModalMaximized(false);
+    setAuthModalOffset({ x: 0, y: 0 });
+    authModalDragRef.current = null;
+  }
+
+  function maximizeAuthModal() {
+    setAuthModalMaximized(true);
+    setAuthModalOffset({ x: 0, y: 0 });
+    authModalDragRef.current = null;
+  }
+
+  function isInteractiveAuthTarget(target) {
+    return target instanceof Element
+      ? Boolean(target.closest("button, a, input, textarea, select, label, [role='tab']"))
+      : false;
+  }
+
+  function handleAuthModalPointerDown(event) {
+    if (authModalMaximized || event.button !== 0 || isInteractiveAuthTarget(event.target)) {
+      return;
+    }
+
+    authModalDragRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      originX: authModalOffset.x,
+      originY: authModalOffset.y
+    };
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+    event.preventDefault();
+  }
+
+  function handleAuthModalPointerMove(event) {
+    const dragState = authModalDragRef.current;
+
+    if (!dragState || dragState.pointerId !== event.pointerId) {
+      return;
+    }
+
+    setAuthModalOffset({
+      x: dragState.originX + event.clientX - dragState.startX,
+      y: dragState.originY + event.clientY - dragState.startY
+    });
+  }
+
+  function handleAuthModalPointerEnd(event) {
+    const dragState = authModalDragRef.current;
+
+    if (!dragState || dragState.pointerId !== event.pointerId) {
+      return;
+    }
+
+    event.currentTarget.releasePointerCapture?.(event.pointerId);
+    authModalDragRef.current = null;
+  }
+
+  function handleAuthFieldChange(fieldName, value) {
+    setAuthValues((currentValues) => ({
+      ...currentValues,
+      [fieldName]: value
+    }));
+    setAuthErrors((currentErrors) => {
+      if (!currentErrors[fieldName]) {
+        return currentErrors;
+      }
+
+      const nextErrors = { ...currentErrors };
+      delete nextErrors[fieldName];
+      return nextErrors;
+    });
+    setAuthNotice(null);
+  }
+
+  async function handleAuthSubmit(event) {
+    event.preventDefault();
+
+    const mode = authModal || "login";
+    const nextErrors = validateAuthValues(mode, authValues);
+
+    if (Object.keys(nextErrors).length > 0) {
+      setAuthErrors(nextErrors);
+      setAuthNotice({
+        tone: "error",
+        message: "请先修正表单中的提示。"
+      });
+      return;
+    }
+
+    setAuthSubmitting(true);
+    setAuthNotice(null);
+
+    try {
+      const result = await submitAuthRequest(mode, authValues);
+
+      setAuthNotice({
+        tone: "success",
+        message: result.message
+      });
+    } catch (error) {
+      setAuthNotice({
+        tone: "error",
+        message: error.message || "提交失败，请稍后再试。"
+      });
+    } finally {
+      setAuthSubmitting(false);
+    }
+  }
 
   return (
     <div className={`${styles.siteShell} ${riskOff ? styles.riskOff : ""}`}>
@@ -216,10 +459,54 @@ export default function MarketHome({ data, initialSection = "overview", initialV
 
         <main className={styles.mainPanel}>
           <div className={styles.utilityBar}>
-            <label className={styles.searchBar}>
-              <span className={styles.searchIcon} aria-hidden="true" />
-              <input type="search" placeholder="搜索市场、板块、新闻..." />
-            </label>
+            <form className={styles.searchWrap} ref={searchRef} role="search" onSubmit={handleSearchSubmit}>
+              <label className={styles.searchBar}>
+                <span className={styles.searchIcon} aria-hidden="true" />
+                <input
+                  type="search"
+                  placeholder="搜索市场、板块、新闻..."
+                  value={searchQuery}
+                  aria-label="搜索市场、板块、新闻"
+                  onChange={(event) => setSearchQuery(event.target.value)}
+                  onFocus={() => setSearchFocused(true)}
+                />
+                {searchQuery ? (
+                  <button
+                    className={styles.searchClear}
+                    type="button"
+                    aria-label="清空搜索"
+                    onClick={() => {
+                      setSearchQuery("");
+                      setSearchFocused(false);
+                    }}
+                  >
+                    ×
+                  </button>
+                ) : null}
+              </label>
+
+              {showSearchResults ? (
+                <div className={styles.searchResults} role="listbox" aria-label="搜索结果">
+                  {searchResults.length > 0 ? (
+                    searchResults.map((result) => (
+                      <Link
+                        key={result.id}
+                        className={styles.searchResultItem}
+                        href={result.href}
+                        role="option"
+                        onClick={handleSearchResultClick}
+                      >
+                        <span>{result.type}</span>
+                        <strong>{result.title}</strong>
+                        <small>{result.description}</small>
+                      </Link>
+                    ))
+                  ) : (
+                    <p className={styles.searchEmpty}>没有找到匹配内容，试试搜索“新闻”“市场”或资产名称。</p>
+                  )}
+                </div>
+              ) : null}
+            </form>
 
             <div className={styles.utilityActions} aria-label="页面工具">
               {utilityItems.map((item) => (
@@ -240,7 +527,6 @@ export default function MarketHome({ data, initialSection = "overview", initialV
                     aria-expanded={authMenuOpen}
                     onClick={() => setAuthMenuOpen((value) => !value)}
                   >
-                    <span className={styles.authIcon} aria-hidden="true" />
                     <span>登录 / 注册</span>
                     <span className={styles.authCaret} aria-hidden="true">
                       ▾
@@ -254,11 +540,10 @@ export default function MarketHome({ data, initialSection = "overview", initialV
                         type="button"
                         role="menuitem"
                         onClick={() => {
-                          setAuthModal("login");
+                          openAuthModal("login");
                           setAuthMenuOpen(false);
                         }}
                       >
-                        <span className={styles.authIcon} aria-hidden="true" />
                         <span>登录</span>
                       </button>
                       <button
@@ -266,11 +551,10 @@ export default function MarketHome({ data, initialSection = "overview", initialV
                         type="button"
                         role="menuitem"
                         onClick={() => {
-                          setAuthModal("register");
+                          openAuthModal("register");
                           setAuthMenuOpen(false);
                         }}
                       >
-                        <span className={styles.authIconPrimary} aria-hidden="true" />
                         <span>注册</span>
                       </button>
                     </div>
@@ -617,13 +901,22 @@ export default function MarketHome({ data, initialSection = "overview", initialV
         <div
           className={styles.modalOverlay}
           role="presentation"
-          onClick={() => setAuthModal(null)}
+          onClick={closeAuthModal}
         >
           <div
-            className={styles.authModal}
+            className={`${styles.authModal} ${authModalMaximized ? styles.authModalMaximized : ""}`}
             role="dialog"
             aria-modal="true"
             aria-labelledby="auth-modal-title"
+            style={
+              authModalMaximized
+                ? undefined
+                : { transform: `translate3d(${authModalOffset.x}px, ${authModalOffset.y}px, 0)` }
+            }
+            onPointerDown={handleAuthModalPointerDown}
+            onPointerMove={handleAuthModalPointerMove}
+            onPointerUp={handleAuthModalPointerEnd}
+            onPointerCancel={handleAuthModalPointerEnd}
             onClick={(event) => event.stopPropagation()}
           >
             <div className={styles.modalTopbar}>
@@ -633,69 +926,163 @@ export default function MarketHome({ data, initialSection = "overview", initialV
                   {authModal === "login" ? "登录 FinScope" : "注册 FinScope"}
                 </h2>
               </div>
-              <button
-                className={styles.modalClose}
-                type="button"
-                aria-label="关闭登录框"
-                onClick={() => setAuthModal(null)}
-              >
-                ×
-              </button>
+              <div className={styles.modalWindowControls} aria-label="弹窗窗口控制">
+                <button
+                  className={styles.modalWindowButton}
+                  type="button"
+                  aria-label="恢复默认大小"
+                  onClick={restoreAuthModalSize}
+                >
+                  -
+                </button>
+                <button
+                  className={styles.modalWindowButton}
+                  type="button"
+                  aria-label="满屏显示"
+                  onClick={maximizeAuthModal}
+                >
+                  □
+                </button>
+                <button
+                  className={`${styles.modalWindowButton} ${styles.modalClose}`}
+                  type="button"
+                  aria-label={authModal === "login" ? "关闭登录框" : "关闭注册框"}
+                  onClick={closeAuthModal}
+                >
+                  ×
+                </button>
+              </div>
             </div>
 
             <div className={styles.modalTabs} role="tablist" aria-label="登录注册切换">
               <button
                 className={`${styles.modalTab} ${authModal === "login" ? styles.modalTabActive : ""}`}
                 type="button"
-                onClick={() => setAuthModal("login")}
+                onClick={() => openAuthModal("login")}
               >
                 登录
               </button>
               <button
                 className={`${styles.modalTab} ${authModal === "register" ? styles.modalTabActive : ""}`}
                 type="button"
-                onClick={() => setAuthModal("register")}
+                onClick={() => openAuthModal("register")}
               >
                 注册
               </button>
             </div>
 
-            <form className={styles.authForm}>
+            <form className={styles.authForm} noValidate onSubmit={handleAuthSubmit}>
               {authModal === "register" ? (
                 <label className={styles.field}>
                   <span>昵称</span>
-                  <input type="text" placeholder="输入你的昵称" />
+                  <input
+                    name="name"
+                    type="text"
+                    placeholder="输入你的昵称"
+                    value={authValues.name || ""}
+                    aria-invalid={Boolean(authErrors.name)}
+                    aria-describedby={authErrors.name ? "modal-name-error" : undefined}
+                    onChange={(event) => handleAuthFieldChange("name", event.target.value)}
+                  />
+                  {authErrors.name ? (
+                    <small id="modal-name-error" className={styles.fieldError}>
+                      {authErrors.name}
+                    </small>
+                  ) : null}
                 </label>
               ) : null}
 
               <label className={styles.field}>
                 <span>{authModal === "login" ? "邮箱或手机号" : "注册邮箱"}</span>
                 <input
+                  name={authModal === "login" ? "account" : "email"}
                   type="text"
                   placeholder={authModal === "login" ? "输入邮箱或手机号" : "输入常用邮箱"}
+                  value={authModal === "login" ? authValues.account || "" : authValues.email || ""}
+                  aria-invalid={Boolean(authModal === "login" ? authErrors.account : authErrors.email)}
+                  aria-describedby={
+                    authModal === "login"
+                      ? authErrors.account
+                        ? "modal-account-error"
+                        : undefined
+                      : authErrors.email
+                        ? "modal-email-error"
+                        : undefined
+                  }
+                  onChange={(event) =>
+                    handleAuthFieldChange(authModal === "login" ? "account" : "email", event.target.value)
+                  }
                 />
+                {authModal === "login" && authErrors.account ? (
+                  <small id="modal-account-error" className={styles.fieldError}>
+                    {authErrors.account}
+                  </small>
+                ) : null}
+                {authModal === "register" && authErrors.email ? (
+                  <small id="modal-email-error" className={styles.fieldError}>
+                    {authErrors.email}
+                  </small>
+                ) : null}
               </label>
 
               <label className={styles.field}>
                 <span>{authModal === "login" ? "密码" : "设置密码"}</span>
-                <input type="password" placeholder={authModal === "login" ? "输入密码" : "至少 8 位密码"} />
+                <input
+                  name="password"
+                  type="password"
+                  placeholder={authModal === "login" ? "输入密码" : "至少 8 位密码"}
+                  value={authValues.password || ""}
+                  aria-invalid={Boolean(authErrors.password)}
+                  aria-describedby={authErrors.password ? "modal-password-error" : undefined}
+                  onChange={(event) => handleAuthFieldChange("password", event.target.value)}
+                />
+                {authErrors.password ? (
+                  <small id="modal-password-error" className={styles.fieldError}>
+                    {authErrors.password}
+                  </small>
+                ) : null}
               </label>
 
               {authModal === "register" ? (
                 <label className={styles.field}>
                   <span>确认密码</span>
-                  <input type="password" placeholder="再次输入密码" />
+                  <input
+                    name="confirmPassword"
+                    type="password"
+                    placeholder="再次输入密码"
+                    value={authValues.confirmPassword || ""}
+                    aria-invalid={Boolean(authErrors.confirmPassword)}
+                    aria-describedby={authErrors.confirmPassword ? "modal-confirm-password-error" : undefined}
+                    onChange={(event) => handleAuthFieldChange("confirmPassword", event.target.value)}
+                  />
+                  {authErrors.confirmPassword ? (
+                    <small id="modal-confirm-password-error" className={styles.fieldError}>
+                      {authErrors.confirmPassword}
+                    </small>
+                  ) : null}
                 </label>
               ) : null}
 
+              {authNotice ? (
+                <p
+                  className={`${styles.formNotice} ${
+                    authNotice.tone === "success" ? styles.formNoticeSuccess : styles.formNoticeError
+                  }`}
+                  role={authNotice.tone === "success" ? "status" : "alert"}
+                >
+                  {authNotice.message}
+                </p>
+              ) : null}
+
               <div className={styles.modalActions}>
-                <button className={styles.primaryBtn} type="button">
-                  {authModal === "login" ? "立即登录" : "创建账户"}
+                <button className={styles.primaryBtn} type="submit" disabled={authSubmitting}>
+                  {authSubmitting ? "提交中..." : authModal === "login" ? "立即登录" : "创建账户"}
                 </button>
                 <button
                   className={styles.ghostBtn}
                   type="button"
-                  onClick={() => setAuthModal(authModal === "login" ? "register" : "login")}
+                  disabled={authSubmitting}
+                  onClick={() => openAuthModal(authModal === "login" ? "register" : "login")}
                 >
                   {authModal === "login" ? "没有账户？去注册" : "已有账户？去登录"}
                 </button>

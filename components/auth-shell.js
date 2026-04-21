@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { getInitialAuthValues, submitAuthRequest, validateAuthValues } from "../lib/auth-client";
 import styles from "./auth-shell.module.css";
 
 const authModes = {
@@ -12,11 +16,13 @@ const authModes = {
     helper: "支持邮箱、手机号、验证码和第三方 OAuth 的接入位都已经预留。",
     primaryFields: [
       {
+        name: "account",
         label: "邮箱或手机号",
         type: "text",
         placeholder: "name@company.com"
       },
       {
+        name: "password",
         label: "密码",
         type: "password",
         placeholder: "输入密码"
@@ -33,21 +39,25 @@ const authModes = {
     helper: "后续可以在这里接会员分层、通知偏好、双重验证和团队席位。",
     primaryFields: [
       {
+        name: "name",
         label: "昵称",
         type: "text",
         placeholder: "输入你的昵称"
       },
       {
+        name: "email",
         label: "注册邮箱",
         type: "email",
         placeholder: "name@company.com"
       },
       {
+        name: "password",
         label: "设置密码",
         type: "password",
         placeholder: "至少 8 位密码"
       },
       {
+        name: "confirmPassword",
         label: "确认密码",
         type: "password",
         placeholder: "再次输入密码"
@@ -77,6 +87,68 @@ const platformHighlights = [
 export default function AuthShell({ mode = "login" }) {
   const currentMode = authModes[mode] || authModes.login;
   const isLogin = mode === "login";
+  const [values, setValues] = useState(() => getInitialAuthValues(mode));
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [notice, setNotice] = useState(null);
+
+  useEffect(() => {
+    setValues(getInitialAuthValues(mode));
+    setErrors({});
+    setIsSubmitting(false);
+    setNotice(null);
+  }, [mode]);
+
+  function handleFieldChange(fieldName, value) {
+    setValues((currentValues) => ({
+      ...currentValues,
+      [fieldName]: value
+    }));
+    setErrors((currentErrors) => {
+      if (!currentErrors[fieldName]) {
+        return currentErrors;
+      }
+
+      const nextErrors = { ...currentErrors };
+      delete nextErrors[fieldName];
+      return nextErrors;
+    });
+    setNotice(null);
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const nextErrors = validateAuthValues(mode, values);
+
+    if (Object.keys(nextErrors).length > 0) {
+      setErrors(nextErrors);
+      setNotice({
+        tone: "error",
+        message: "请先修正表单中的提示。"
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    setNotice(null);
+
+    try {
+      const result = await submitAuthRequest(mode, values);
+
+      setNotice({
+        tone: "success",
+        message: result.message
+      });
+    } catch (error) {
+      setNotice({
+        tone: "error",
+        message: error.message || "提交失败，请稍后再试。"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   return (
     <main className={styles.pageShell}>
@@ -143,17 +215,41 @@ export default function AuthShell({ mode = "login" }) {
             <h2>{currentMode.title}</h2>
             <p className={styles.description}>{currentMode.description}</p>
 
-            <form className={styles.formGrid}>
+            <form className={styles.formGrid} noValidate onSubmit={handleSubmit}>
               {currentMode.primaryFields.map((field) => (
                 <label key={field.label} className={styles.field}>
                   <span>{field.label}</span>
-                  <input type={field.type} placeholder={field.placeholder} />
+                  <input
+                    name={field.name}
+                    type={field.type}
+                    placeholder={field.placeholder}
+                    value={values[field.name] || ""}
+                    aria-invalid={Boolean(errors[field.name])}
+                    aria-describedby={errors[field.name] ? `${field.name}-error` : undefined}
+                    onChange={(event) => handleFieldChange(field.name, event.target.value)}
+                  />
+                  {errors[field.name] ? (
+                    <small id={`${field.name}-error`} className={styles.fieldError}>
+                      {errors[field.name]}
+                    </small>
+                  ) : null}
                 </label>
               ))}
 
+              {notice ? (
+                <p
+                  className={`${styles.formNotice} ${
+                    notice.tone === "success" ? styles.formNoticeSuccess : styles.formNoticeError
+                  }`}
+                  role={notice.tone === "success" ? "status" : "alert"}
+                >
+                  {notice.message}
+                </p>
+              ) : null}
+
               <div className={styles.formActions}>
-                <button className={styles.primaryButton} type="button">
-                  {currentMode.submitLabel}
+                <button className={styles.primaryButton} type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? "提交中..." : currentMode.submitLabel}
                 </button>
                 <Link className={styles.secondaryLink} href={currentMode.secondaryHref}>
                   {currentMode.secondaryLabel}
