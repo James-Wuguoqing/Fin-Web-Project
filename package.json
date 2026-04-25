@@ -7,11 +7,16 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "test:visible": "node scripts/visible-smoke-test.mjs",
+    "test:visible:fast": "node scripts/visible-smoke-test.mjs --fast",
+    "test:report": "node scripts/visible-smoke-test.mjs --report && node scripts/run-docx-report-builder.mjs",
+    "test:report:fast": "node scripts/visible-smoke-test.mjs --report --fast && node scripts/run-docx-report-builder.mjs"
   },
   "devDependencies": {
     "eslint": "^9.38.0",
-    "eslint-config-next": "16.2.3"
+    "eslint-config-next": "16.2.3",
+    "playwright-core": "^1.59.1"
   },
   "dependencies": {
     "next": "16.2.3",

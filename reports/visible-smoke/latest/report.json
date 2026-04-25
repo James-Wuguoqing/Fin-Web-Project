@@ -1,0 +1,400 @@
+{
+  "title": "FinScope 可视化功能测试报告",
+  "project": "FinScope Next",
+  "baseUrl": "http://127.0.0.1:3000",
+  "browserPath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "mode": "fast",
+  "startedAt": "2026-04-25T03:00:55.198Z",
+  "finishedAt": "2026-04-25T03:01:54.686Z",
+  "durationMs": 59488,
+  "reportDir": "C:\\Users\\wugq1\\Documents\\New project\\reports\\visible-smoke\\runs\\20260425-110055",
+  "video": "C:\\Users\\wugq1\\Documents\\New project\\reports\\visible-smoke\\runs\\20260425-110055\\visible-smoke.webm",
+  "videoRelative": "visible-smoke.webm",
+  "videoStatus": "screenshot-replay",
+  "videoNote": "当前环境未安装 Playwright ffmpeg；已根据关键截屏生成步骤回放视频，DOCX 内也已嵌入截图。",
+  "terminalLog": "C:\\Users\\wugq1\\Documents\\New project\\reports\\visible-smoke\\runs\\20260425-110055\\terminal.log",
+  "terminalLogRelative": "terminal.log",
+  "summary": {
+    "passed": 12,
+    "failed": 0,
+    "warnings": 0,
+    "materialConsoleIssues": 0,
+    "total": 12
+  },
+  "results": [
+    {
+      "index": 1,
+      "name": "首页加载和核心区块可见",
+      "status": "PASS",
+      "startedAt": "2026-04-25T03:00:56.977Z",
+      "durationMs": 2170,
+      "startUrl": "about:blank",
+      "endUrl": "http://127.0.0.1:3000/",
+      "title": "市场概览",
+      "actions": [
+        "打开页面 /"
+      ],
+      "assertions": [
+        "看到标题：今日市场总览",
+        "看到标题：市场看板",
+        "看到文本：市场情绪"
+      ],
+      "observations": [
+        "市场概览 -> http://127.0.0.1:3000/",
+        "页面标题摘要：今日市场总览 | 把复杂市场，整理成一眼能读懂的财经首页。 | Risk-On | 市场概览 | 市场看板",
+        "市场概览 -> http://127.0.0.1:3000/",
+        "页面标题摘要：今日市场总览 | 把复杂市场，整理成一眼能读懂的财经首页。 | Risk-On | 市场概览 | 市场看板"
+      ],
+      "screenshot": "C:\\Users\\wugq1\\Documents\\New project\\reports\\visible-smoke\\runs\\20260425-110055\\screenshots\\01-首页加载和核心区块可见.png",
+      "screenshotRelative": "screenshots/01-首页加载和核心区块可见.png",
+      "detail": ""
+    },
+    {
+      "index": 2,
+      "name": "市场看板 tab 切换：指数 / 板块 / 外汇",
+      "status": "PASS",
+      "startedAt": "2026-04-25T03:00:59.726Z",
+      "durationMs": 2111,
+      "startUrl": "http://127.0.0.1:3000/",
+      "endUrl": "http://127.0.0.1:3000/",
+      "title": "市场概览",
+      "actions": [
+        "打开页面 /",
+        "点击市场看板 tab：板块",
+        "点击市场看板 tab：外汇",
+        "点击市场看板 tab：指数"
+      ],
+      "assertions": [
+        "市场 tab 已激活：板块",
+        "市场 tab 已激活：外汇",
+        "市场 tab 已激活：指数"
+      ],
+      "observations": [
+        "市场概览 -> http://127.0.0.1:3000/",
+        "页面标题摘要：今日市场总览 | 把复杂市场，整理成一眼能读懂的财经首页。 | Risk-On | 市场概览 | 市场看板",
+        "市场概览 -> http://127.0.0.1:3000/",
+        "市场概览 -> http://127.0.0.1:3000/",
+        "市场概览 -> http://127.0.0.1:3000/"
+      ],
+      "screenshot": "C:\\Users\\wugq1\\Documents\\New project\\reports\\visible-smoke\\runs\\20260425-110055\\screenshots\\02-市场看板-tab-切换-指数-板块-外汇.png",
+      "screenshotRelative": "screenshots/02-市场看板-tab-切换-指数-板块-外汇.png",
+      "detail": ""
+    },
+    {
+      "index": 3,
+      "name": "首页二级菜单：市场分类",
+      "status": "PASS",
+      "startedAt": "2026-04-25T03:01:01.966Z",
+      "durationMs": 724,
+      "startUrl": "http://127.0.0.1:3000/",
+      "endUrl": "http://127.0.0.1:3000/?view=catalog",
+      "title": "市场概览",
+      "actions": [
+        "打开页面 /?view=catalog"
+      ],
+      "assertions": [
+        "看到标题：市场分类入口",
+        "看到文本：打开完整分类页"
+      ],
+      "observations": [
+        "市场概览 -> http://127.0.0.1:3000/?view=catalog",
+        "页面标题摘要：今日市场总览 | 把复杂市场，整理成一眼能读懂的财经首页。 | Risk-On | 市场概览 | 市场分类入口",
+        "市场概览 -> http://127.0.0.1:3000/?view=catalog",
+        "页面标题摘要：今日市场总览 | 把复杂市场，整理成一眼能读懂的财经首页。 | Risk-On | 市场概览 | 市场分类入口"
+      ],
+      "screenshot": "C:\\Users\\wugq1\\Documents\\New project\\reports\\visible-smoke\\runs\\20260425-110055\\screenshots\\03-首页二级菜单-市场分类.png",
+      "screenshotRelative": "screenshots/03-首页二级菜单-市场分类.png",
+      "detail": ""
+    },
+    {
+      "index": 4,
+      "name": "主导航页面：深度 / 快讯 / 策略",
+      "status": "PASS",
+      "startedAt": "2026-04-25T03:01:02.872Z",
+      "durationMs": 2302,
+      "startUrl": "http://127.0.0.1:3000/?view=catalog",
+      "endUrl": "http://127.0.0.1:3000/insight",
+      "title": "策略 | FinScope 财经前沿",
+      "actions": [
+        "打开页面 /focus",
+        "打开页面 /flash",
+        "打开页面 /insight"
+      ],
+      "assertions": [
+        "看到标题：深度栏目 工作台",
+        "看到文本：封面深读",
+        "看到标题：快讯 工作台",
+        "看到标题：今日快讯",
+        "看到标题：策略 工作台",
+        "看到标题：策略摘要"
+      ],
+      "observations": [
+        "深度栏目 | FinScope 财经前沿 -> http://127.0.0.1:3000/focus",
+        "页面标题摘要：深度栏目 工作台 | 深度栏目 | 深度栏目 | QQQ领涨，市场继续围绕增长与利率重新定价。",
+        "快讯 | FinScope 财经前沿 -> http://127.0.0.1:3000/flash",
+        "页面标题摘要：快讯 工作台 | 快讯中心 | 快讯 | 今日快讯",
+        "策略 | FinScope 财经前沿 -> http://127.0.0.1:3000/insight",
+        "页面标题摘要：策略 工作台 | 策略视角 | 策略 | 策略摘要"
+      ],
+      "screenshot": "C:\\Users\\wugq1\\Documents\\New project\\reports\\visible-smoke\\runs\\20260425-110055\\screenshots\\04-主导航页面-深度-快讯-策略.png",
+      "screenshotRelative": "screenshots/04-主导航页面-深度-快讯-策略.png",
+      "detail": ""
+    },
+    {
+      "index": 5,
+      "name": "各频道二级视图：macro / newsHub / heatmap",
+      "status": "PASS",
+      "startedAt": "2026-04-25T03:01:05.367Z",
+      "durationMs": 2117,
+      "startUrl": "http://127.0.0.1:3000/insight",
+      "endUrl": "http://127.0.0.1:3000/insight?view=heatmap",
+      "title": "策略 | FinScope 财经前沿",
+      "actions": [
+        "打开页面 /focus?view=macro",
+        "打开页面 /flash?view=newsHub",
+        "打开页面 /insight?view=heatmap"
+      ],
+      "assertions": [
+        "看到文本：宏观栏目",
+        "看到标题：新闻中心入口",
+        "看到标题：策略图表",
+        "看到文本：资金偏好温度计"
+      ],
+      "observations": [
+        "深度栏目 | FinScope 财经前沿 -> http://127.0.0.1:3000/focus?view=macro",
+        "页面标题摘要：深度栏目 工作台 | 深度栏目 | 深度栏目",
+        "快讯 | FinScope 财经前沿 -> http://127.0.0.1:3000/flash?view=newsHub",
+        "页面标题摘要：快讯 工作台 | 快讯中心 | 快讯 | 新闻中心入口",
+        "策略 | FinScope 财经前沿 -> http://127.0.0.1:3000/insight?view=heatmap",
+        "页面标题摘要：策略 工作台 | 策略视角 | 策略 | 策略图表"
+      ],
+      "screenshot": "C:\\Users\\wugq1\\Documents\\New project\\reports\\visible-smoke\\runs\\20260425-110055\\screenshots\\05-各频道二级视图-macro-newsHub-heatmap.png",
+      "screenshotRelative": "screenshots/05-各频道二级视图-macro-newsHub-heatmap.png",
+      "detail": ""
+    },
+    {
+      "index": 6,
+      "name": "搜索：展示结果、回车跳转、无结果提示",
+      "status": "PASS",
+      "startedAt": "2026-04-25T03:01:07.716Z",
+      "durationMs": 2622,
+      "startUrl": "http://127.0.0.1:3000/insight?view=heatmap",
+      "endUrl": "http://127.0.0.1:3000/",
+      "title": "市场概览",
+      "actions": [
+        "打开页面 /",
+        "输入搜索关键词：新闻: 新闻",
+        "按 Enter 跳转到首个搜索结果: Enter",
+        "打开页面 /",
+        "输入无匹配搜索词: zzzz-no-match"
+      ],
+      "assertions": [
+        "看到元素：搜索结果面板",
+        "URL 包含：/flash",
+        "看到文本：没有找到匹配内容"
+      ],
+      "observations": [
+        "市场概览 -> http://127.0.0.1:3000/",
+        "页面标题摘要：今日市场总览 | 把复杂市场，整理成一眼能读懂的财经首页。 | Risk-On | 市场概览 | 市场看板",
+        "市场概览 -> http://127.0.0.1:3000/",
+        "市场概览 -> http://127.0.0.1:3000/",
+        "页面标题摘要：今日市场总览 | 把复杂市场，整理成一眼能读懂的财经首页。 | Risk-On | 市场概览 | 市场看板"
+      ],
+      "screenshot": "C:\\Users\\wugq1\\Documents\\New project\\reports\\visible-smoke\\runs\\20260425-110055\\screenshots\\06-搜索-展示结果-回车跳转-无结果提示.png",
+      "screenshotRelative": "screenshots/06-搜索-展示结果-回车跳转-无结果提示.png",
+      "detail": ""
+    },
+    {
+      "index": 7,
+      "name": "首页登录/注册弹窗：菜单、校验、成功提示、切换",
+      "status": "PASS",
+      "startedAt": "2026-04-25T03:01:10.510Z",
+      "durationMs": 6120,
+      "startUrl": "http://127.0.0.1:3000/",
+      "endUrl": "http://127.0.0.1:3000/",
+      "title": "市场概览",
+      "actions": [
+        "打开页面 /",
+        "打开登录/注册菜单",
+        "选择登录",
+        "提交空登录表单",
+        "输入登录账号: tester@example.com",
+        "输入登录密码: ***********",
+        "提交登录表单",
+        "切换到注册弹窗",
+        "提交空注册表单",
+        "关闭注册弹窗"
+      ],
+      "assertions": [
+        "看到标题：登录 FinScope",
+        "看到文本：请输入邮箱或手机号。",
+        "看到文本：前端登录流程已通过",
+        "看到标题：注册 FinScope",
+        "看到文本：请输入昵称。"
+      ],
+      "observations": [
+        "市场概览 -> http://127.0.0.1:3000/",
+        "页面标题摘要：今日市场总览 | 把复杂市场，整理成一眼能读懂的财经首页。 | Risk-On | 市场概览 | 市场看板",
+        "市场概览 -> http://127.0.0.1:3000/",
+        "市场概览 -> http://127.0.0.1:3000/",
+        "市场概览 -> http://127.0.0.1:3000/",
+        "市场概览 -> http://127.0.0.1:3000/",
+        "市场概览 -> http://127.0.0.1:3000/",
+        "市场概览 -> http://127.0.0.1:3000/",
+        "市场概览 -> http://127.0.0.1:3000/"
+      ],
+      "screenshot": "C:\\Users\\wugq1\\Documents\\New project\\reports\\visible-smoke\\runs\\20260425-110055\\screenshots\\07-首页登录-注册弹窗-菜单-校验-成功提示-切换.png",
+      "screenshotRelative": "screenshots/07-首页登录-注册弹窗-菜单-校验-成功提示-切换.png",
+      "detail": ""
+    },
+    {
+      "index": 8,
+      "name": "独立登录页表单校验和成功提示",
+      "status": "PASS",
+      "startedAt": "2026-04-25T03:01:16.789Z",
+      "durationMs": 2983,
+      "startUrl": "http://127.0.0.1:3000/",
+      "endUrl": "http://127.0.0.1:3000/login",
+      "title": "登录 | FinScope 财经前沿 | FinScope 财经前沿",
+      "actions": [
+        "打开页面 /login",
+        "提交空登录页表单",
+        "输入登录页账号: tester@example.com",
+        "输入登录页密码: ***********",
+        "提交登录页表单"
+      ],
+      "assertions": [
+        "看到标题：登录 FinScope",
+        "看到文本：请输入邮箱或手机号。",
+        "看到文本：前端登录流程已通过"
+      ],
+      "observations": [
+        "登录 | FinScope 财经前沿 | FinScope 财经前沿 -> http://127.0.0.1:3000/login",
+        "页面标题摘要：把账户入口也做成同一套 fintech 工作台体验。 | 登录 FinScope",
+        "登录 | FinScope 财经前沿 | FinScope 财经前沿 -> http://127.0.0.1:3000/login",
+        "登录 | FinScope 财经前沿 | FinScope 财经前沿 -> http://127.0.0.1:3000/login"
+      ],
+      "screenshot": "C:\\Users\\wugq1\\Documents\\New project\\reports\\visible-smoke\\runs\\20260425-110055\\screenshots\\08-独立登录页表单校验和成功提示.png",
+      "screenshotRelative": "screenshots/08-独立登录页表单校验和成功提示.png",
+      "detail": ""
+    },
+    {
+      "index": 9,
+      "name": "独立注册页表单校验和成功提示",
+      "status": "PASS",
+      "startedAt": "2026-04-25T03:01:20.389Z",
+      "durationMs": 4186,
+      "startUrl": "http://127.0.0.1:3000/login",
+      "endUrl": "http://127.0.0.1:3000/register",
+      "title": "注册 | FinScope 财经前沿 | FinScope 财经前沿",
+      "actions": [
+        "打开页面 /register",
+        "提交空注册页表单",
+        "输入昵称: Test User",
+        "输入注册邮箱: newuser@example.com",
+        "输入注册密码: ***********",
+        "输入确认密码: ***********",
+        "提交注册页表单"
+      ],
+      "assertions": [
+        "看到标题：注册 FinScope",
+        "看到文本：请输入昵称。",
+        "看到文本：前端注册流程已通过"
+      ],
+      "observations": [
+        "注册 | FinScope 财经前沿 | FinScope 财经前沿 -> http://127.0.0.1:3000/register",
+        "页面标题摘要：把账户入口也做成同一套 fintech 工作台体验。 | 注册 FinScope",
+        "注册 | FinScope 财经前沿 | FinScope 财经前沿 -> http://127.0.0.1:3000/register",
+        "注册 | FinScope 财经前沿 | FinScope 财经前沿 -> http://127.0.0.1:3000/register"
+      ],
+      "screenshot": "C:\\Users\\wugq1\\Documents\\New project\\reports\\visible-smoke\\runs\\20260425-110055\\screenshots\\09-独立注册页表单校验和成功提示.png",
+      "screenshotRelative": "screenshots/09-独立注册页表单校验和成功提示.png",
+      "detail": ""
+    },
+    {
+      "index": 10,
+      "name": "市场分类页",
+      "status": "PASS",
+      "startedAt": "2026-04-25T03:01:24.929Z",
+      "durationMs": 1276,
+      "startUrl": "http://127.0.0.1:3000/register",
+      "endUrl": "http://127.0.0.1:3000/markets",
+      "title": "FinScope 市场分类 | FinScope 财经前沿",
+      "actions": [
+        "打开页面 /markets"
+      ],
+      "assertions": [
+        "看到标题：市场分类页",
+        "看到文本：返回首页",
+        "看到文本：查看新闻中心"
+      ],
+      "observations": [
+        "FinScope 市场分类 | FinScope 财经前沿 -> http://127.0.0.1:3000/markets",
+        "页面标题摘要：市场分类页",
+        "FinScope 市场分类 | FinScope 财经前沿 -> http://127.0.0.1:3000/markets",
+        "页面标题摘要：市场分类页"
+      ],
+      "screenshot": "C:\\Users\\wugq1\\Documents\\New project\\reports\\visible-smoke\\runs\\20260425-110055\\screenshots\\10-市场分类页.png",
+      "screenshotRelative": "screenshots/10-市场分类页.png",
+      "detail": ""
+    },
+    {
+      "index": 11,
+      "name": "新闻中心与新闻详情页",
+      "status": "PASS",
+      "startedAt": "2026-04-25T03:01:26.508Z",
+      "durationMs": 13382,
+      "startUrl": "http://127.0.0.1:3000/markets",
+      "endUrl": "http://127.0.0.1:3000/news",
+      "title": "",
+      "actions": [
+        "打开页面 /news",
+        "打开第一条新闻详情",
+        "返回新闻中心"
+      ],
+      "assertions": [
+        "看到标题：财经新闻中心",
+        "看到标题：AI 摘要",
+        "看到标题：相关文章",
+        "路径等于：/news"
+      ],
+      "observations": [
+        "FinScope 新闻中心 | FinScope 财经前沿 -> http://127.0.0.1:3000/news",
+        "页面标题摘要：财经新闻中心 | Microsoft announces quarterly dividend | $1M Prize Pool At Stake: Candy Crush All Stars 2026 Kicks Off with Marshawn Lynch and Erin Andrews as Tournament Hype Hosts | Microsoft Rural Health Resiliency Program and Pivot Point Consulting Drive AI-Enabled Innovation by Bringing Dragon Copilot to Rural Hospitals Nationwide | Why Rare Earth Magnets Are the Real Battlefield Between the U.S. and China | Zillow launches Zillow for Warcraft®, a new way to explore World of Warcraft® homes",
+        "FinScope 新闻中心 | FinScope 财经前沿 -> http://127.0.0.1:3000/news",
+        "FinScope 财经前沿 -> http://127.0.0.1:3000/news/twelve-data-20260310sf05886"
+      ],
+      "screenshot": "C:\\Users\\wugq1\\Documents\\New project\\reports\\visible-smoke\\runs\\20260425-110055\\screenshots\\11-新闻中心与新闻详情页.png",
+      "screenshotRelative": "screenshots/11-新闻中心与新闻详情页.png",
+      "detail": ""
+    },
+    {
+      "index": 12,
+      "name": "本地 API 健康检查",
+      "status": "PASS",
+      "startedAt": "2026-04-25T03:01:40.222Z",
+      "durationMs": 180,
+      "startUrl": "http://127.0.0.1:3000/news",
+      "endUrl": "http://127.0.0.1:3000/news",
+      "title": "FinScope 新闻中心 | FinScope 财经前沿",
+      "actions": [
+        "请求 API /api/market/home",
+        "请求 API /api/markets",
+        "请求 API /api/news",
+        "请求 API /api/news/twelve-data-20260310sf05886"
+      ],
+      "assertions": [
+        "/api/market/home 返回 HTTP 200",
+        "/api/markets 返回 HTTP 200",
+        "/api/news 返回 HTTP 200",
+        "/api/news/twelve-data-20260310sf05886 返回 HTTP 200"
+      ],
+      "observations": [],
+      "screenshot": "C:\\Users\\wugq1\\Documents\\New project\\reports\\visible-smoke\\runs\\20260425-110055\\screenshots\\12-本地-API-健康检查.png",
+      "screenshotRelative": "screenshots/12-本地-API-健康检查.png",
+      "detail": ""
+    }
+  ],
+  "consoleIssues": [],
+  "materialConsoleIssues": []
+}

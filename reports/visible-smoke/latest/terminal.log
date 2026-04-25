@@ -1,0 +1,205 @@
+[INFO] Base URL: http://127.0.0.1:3000
+[INFO] Browser: C:\Program Files\Google\Chrome\Application\chrome.exe
+[INFO] Mode: fast; slowMo=80ms
+[INFO] Report run directory: C:\Users\wugq1\Documents\New project\reports\visible-smoke\runs\20260425-110055
+[INFO] Native Playwright video skipped: ffmpeg was not found. A screenshot replay video will be generated instead.
+
+[STEP] 首页加载和核心区块可见
+[ACTION] 打开页面 /
+[PAGE] 市场概览 -> http://127.0.0.1:3000/
+[PAGE] 页面标题摘要：今日市场总览 | 把复杂市场，整理成一眼能读懂的财经首页。 | Risk-On | 市场概览 | 市场看板
+[PAGE] 看到标题：今日市场总览
+[PAGE] 看到标题：市场看板
+[PAGE] 看到文本：市场情绪
+[PAGE] 市场概览 -> http://127.0.0.1:3000/
+[PAGE] 页面标题摘要：今日市场总览 | 把复杂市场，整理成一眼能读懂的财经首页。 | Risk-On | 市场概览 | 市场看板
+[PASS] 首页加载和核心区块可见
+
+[STEP] 市场看板 tab 切换：指数 / 板块 / 外汇
+[ACTION] 打开页面 /
+[PAGE] 市场概览 -> http://127.0.0.1:3000/
+[PAGE] 页面标题摘要：今日市场总览 | 把复杂市场，整理成一眼能读懂的财经首页。 | Risk-On | 市场概览 | 市场看板
+[ACTION] 点击市场看板 tab：板块
+[PAGE] 市场概览 -> http://127.0.0.1:3000/
+[PAGE] 市场 tab 已激活：板块
+[ACTION] 点击市场看板 tab：外汇
+[PAGE] 市场概览 -> http://127.0.0.1:3000/
+[PAGE] 市场 tab 已激活：外汇
+[ACTION] 点击市场看板 tab：指数
+[PAGE] 市场概览 -> http://127.0.0.1:3000/
+[PAGE] 市场 tab 已激活：指数
+[PASS] 市场看板 tab 切换：指数 / 板块 / 外汇
+
+[STEP] 首页二级菜单：市场分类
+[ACTION] 打开页面 /?view=catalog
+[PAGE] 市场概览 -> http://127.0.0.1:3000/?view=catalog
+[PAGE] 页面标题摘要：今日市场总览 | 把复杂市场，整理成一眼能读懂的财经首页。 | Risk-On | 市场概览 | 市场分类入口
+[PAGE] 看到标题：市场分类入口
+[PAGE] 看到文本：打开完整分类页
+[PAGE] 市场概览 -> http://127.0.0.1:3000/?view=catalog
+[PAGE] 页面标题摘要：今日市场总览 | 把复杂市场，整理成一眼能读懂的财经首页。 | Risk-On | 市场概览 | 市场分类入口
+[PASS] 首页二级菜单：市场分类
+
+[STEP] 主导航页面：深度 / 快讯 / 策略
+[ACTION] 打开页面 /focus
+[PAGE] 深度栏目 | FinScope 财经前沿 -> http://127.0.0.1:3000/focus
+[PAGE] 页面标题摘要：深度栏目 工作台 | 深度栏目 | 深度栏目 | QQQ领涨，市场继续围绕增长与利率重新定价。
+[PAGE] 看到标题：深度栏目 工作台
+[PAGE] 看到文本：封面深读
+[ACTION] 打开页面 /flash
+[PAGE] 快讯 | FinScope 财经前沿 -> http://127.0.0.1:3000/flash
+[PAGE] 页面标题摘要：快讯 工作台 | 快讯中心 | 快讯 | 今日快讯
+[PAGE] 看到标题：快讯 工作台
+[PAGE] 看到标题：今日快讯
+[ACTION] 打开页面 /insight
+[PAGE] 策略 | FinScope 财经前沿 -> http://127.0.0.1:3000/insight
+[PAGE] 页面标题摘要：策略 工作台 | 策略视角 | 策略 | 策略摘要
+[PAGE] 看到标题：策略 工作台
+[PAGE] 看到标题：策略摘要
+[PASS] 主导航页面：深度 / 快讯 / 策略
+
+[STEP] 各频道二级视图：macro / newsHub / heatmap
+[ACTION] 打开页面 /focus?view=macro
+[PAGE] 深度栏目 | FinScope 财经前沿 -> http://127.0.0.1:3000/focus?view=macro
+[PAGE] 页面标题摘要：深度栏目 工作台 | 深度栏目 | 深度栏目
+[PAGE] 看到文本：宏观栏目
+[ACTION] 打开页面 /flash?view=newsHub
+[PAGE] 快讯 | FinScope 财经前沿 -> http://127.0.0.1:3000/flash?view=newsHub
+[PAGE] 页面标题摘要：快讯 工作台 | 快讯中心 | 快讯 | 新闻中心入口
+[PAGE] 看到标题：新闻中心入口
+[ACTION] 打开页面 /insight?view=heatmap
+[PAGE] 策略 | FinScope 财经前沿 -> http://127.0.0.1:3000/insight?view=heatmap
+[PAGE] 页面标题摘要：策略 工作台 | 策略视角 | 策略 | 策略图表
+[PAGE] 看到标题：策略图表
+[PAGE] 看到文本：资金偏好温度计
+[PASS] 各频道二级视图：macro / newsHub / heatmap
+
+[STEP] 搜索：展示结果、回车跳转、无结果提示
+[ACTION] 打开页面 /
+[PAGE] 市场概览 -> http://127.0.0.1:3000/
+[PAGE] 页面标题摘要：今日市场总览 | 把复杂市场，整理成一眼能读懂的财经首页。 | Risk-On | 市场概览 | 市场看板
+[ACTION] 输入搜索关键词：新闻: 新闻
+[PAGE] 看到元素：搜索结果面板
+[ACTION] 按 Enter 跳转到首个搜索结果: Enter
+[PAGE] 市场概览 -> http://127.0.0.1:3000/
+[PAGE] URL 包含：/flash
+[ACTION] 打开页面 /
+[PAGE] 市场概览 -> http://127.0.0.1:3000/
+[PAGE] 页面标题摘要：今日市场总览 | 把复杂市场，整理成一眼能读懂的财经首页。 | Risk-On | 市场概览 | 市场看板
+[ACTION] 输入无匹配搜索词: zzzz-no-match
+[PAGE] 看到文本：没有找到匹配内容
+[PASS] 搜索：展示结果、回车跳转、无结果提示
+
+[STEP] 首页登录/注册弹窗：菜单、校验、成功提示、切换
+[ACTION] 打开页面 /
+[PAGE] 市场概览 -> http://127.0.0.1:3000/
+[PAGE] 页面标题摘要：今日市场总览 | 把复杂市场，整理成一眼能读懂的财经首页。 | Risk-On | 市场概览 | 市场看板
+[ACTION] 打开登录/注册菜单
+[PAGE] 市场概览 -> http://127.0.0.1:3000/
+[ACTION] 选择登录
+[PAGE] 市场概览 -> http://127.0.0.1:3000/
+[PAGE] 看到标题：登录 FinScope
+[ACTION] 提交空登录表单
+[PAGE] 市场概览 -> http://127.0.0.1:3000/
+[PAGE] 看到文本：请输入邮箱或手机号。
+[ACTION] 输入登录账号: tester@example.com
+[ACTION] 输入登录密码: ***********
+[ACTION] 提交登录表单
+[PAGE] 市场概览 -> http://127.0.0.1:3000/
+[PAGE] 看到文本：前端登录流程已通过
+[ACTION] 切换到注册弹窗
+[PAGE] 市场概览 -> http://127.0.0.1:3000/
+[PAGE] 看到标题：注册 FinScope
+[ACTION] 提交空注册表单
+[PAGE] 市场概览 -> http://127.0.0.1:3000/
+[PAGE] 看到文本：请输入昵称。
+[ACTION] 关闭注册弹窗
+[PAGE] 市场概览 -> http://127.0.0.1:3000/
+[PASS] 首页登录/注册弹窗：菜单、校验、成功提示、切换
+
+[STEP] 独立登录页表单校验和成功提示
+[ACTION] 打开页面 /login
+[PAGE] 登录 | FinScope 财经前沿 | FinScope 财经前沿 -> http://127.0.0.1:3000/login
+[PAGE] 页面标题摘要：把账户入口也做成同一套 fintech 工作台体验。 | 登录 FinScope
+[PAGE] 看到标题：登录 FinScope
+[ACTION] 提交空登录页表单
+[PAGE] 登录 | FinScope 财经前沿 | FinScope 财经前沿 -> http://127.0.0.1:3000/login
+[PAGE] 看到文本：请输入邮箱或手机号。
+[ACTION] 输入登录页账号: tester@example.com
+[ACTION] 输入登录页密码: ***********
+[ACTION] 提交登录页表单
+[PAGE] 登录 | FinScope 财经前沿 | FinScope 财经前沿 -> http://127.0.0.1:3000/login
+[PAGE] 看到文本：前端登录流程已通过
+[PASS] 独立登录页表单校验和成功提示
+
+[STEP] 独立注册页表单校验和成功提示
+[ACTION] 打开页面 /register
+[PAGE] 注册 | FinScope 财经前沿 | FinScope 财经前沿 -> http://127.0.0.1:3000/register
+[PAGE] 页面标题摘要：把账户入口也做成同一套 fintech 工作台体验。 | 注册 FinScope
+[PAGE] 看到标题：注册 FinScope
+[ACTION] 提交空注册页表单
+[PAGE] 注册 | FinScope 财经前沿 | FinScope 财经前沿 -> http://127.0.0.1:3000/register
+[PAGE] 看到文本：请输入昵称。
+[ACTION] 输入昵称: Test User
+[ACTION] 输入注册邮箱: newuser@example.com
+[ACTION] 输入注册密码: ***********
+[ACTION] 输入确认密码: ***********
+[ACTION] 提交注册页表单
+[PAGE] 注册 | FinScope 财经前沿 | FinScope 财经前沿 -> http://127.0.0.1:3000/register
+[PAGE] 看到文本：前端注册流程已通过
+[PASS] 独立注册页表单校验和成功提示
+
+[STEP] 市场分类页
+[ACTION] 打开页面 /markets
+[PAGE] FinScope 市场分类 | FinScope 财经前沿 -> http://127.0.0.1:3000/markets
+[PAGE] 页面标题摘要：市场分类页
+[PAGE] 看到标题：市场分类页
+[PAGE] 看到文本：返回首页
+[PAGE] 看到文本：查看新闻中心
+[PAGE] FinScope 市场分类 | FinScope 财经前沿 -> http://127.0.0.1:3000/markets
+[PAGE] 页面标题摘要：市场分类页
+[PASS] 市场分类页
+
+[STEP] 新闻中心与新闻详情页
+[ACTION] 打开页面 /news
+[PAGE] FinScope 新闻中心 | FinScope 财经前沿 -> http://127.0.0.1:3000/news
+[PAGE] 页面标题摘要：财经新闻中心 | Microsoft announces quarterly dividend | $1M Prize Pool At Stake: Candy Crush All Stars 2026 Kicks Off with Marshawn Lynch and Erin Andrews as Tournament Hype Hosts | Microsoft Rural Health Resiliency Program and Pivot Point Consulting Drive AI-Enabled Innovation by Bringing Dragon Copilot to Rural Hospitals Nationwide | Why Rare Earth Magnets Are the Real Battlefield Between the U.S. and China | Zillow launches Zillow for Warcraft®, a new way to explore World of Warcraft® homes
+[PAGE] 看到标题：财经新闻中心
+[ACTION] 打开第一条新闻详情
+[PAGE] FinScope 新闻中心 | FinScope 财经前沿 -> http://127.0.0.1:3000/news
+[PAGE] 看到标题：AI 摘要
+[PAGE] 看到标题：相关文章
+[ACTION] 返回新闻中心
+[PAGE] FinScope 财经前沿 -> http://127.0.0.1:3000/news/twelve-data-20260310sf05886
+[PAGE] 路径等于：/news
+[PASS] 新闻中心与新闻详情页
+
+[STEP] 本地 API 健康检查
+[ACTION] 请求 API /api/market/home
+[PAGE] /api/market/home 返回 HTTP 200
+[ACTION] 请求 API /api/markets
+[PAGE] /api/markets 返回 HTTP 200
+[ACTION] 请求 API /api/news
+[PAGE] /api/news 返回 HTTP 200
+[ACTION] 请求 API /api/news/twelve-data-20260310sf05886
+[PAGE] /api/news/twelve-data-20260310sf05886 返回 HTTP 200
+[PASS] 本地 API 健康检查
+[INFO] Screenshot replay video written: C:\Users\wugq1\Documents\New project\reports\visible-smoke\runs\20260425-110055\visible-smoke.webm
+
+========== Visible Smoke Test Summary ==========
+Passed: 12
+Failed: 0
+Warnings: 0
+Material console issues: 0
+[PASS] 首页加载和核心区块可见
+[PASS] 市场看板 tab 切换：指数 / 板块 / 外汇
+[PASS] 首页二级菜单：市场分类
+[PASS] 主导航页面：深度 / 快讯 / 策略
+[PASS] 各频道二级视图：macro / newsHub / heatmap
+[PASS] 搜索：展示结果、回车跳转、无结果提示
+[PASS] 首页登录/注册弹窗：菜单、校验、成功提示、切换
+[PASS] 独立登录页表单校验和成功提示
+[PASS] 独立注册页表单校验和成功提示
+[PASS] 市场分类页
+[PASS] 新闻中心与新闻详情页
+[PASS] 本地 API 健康检查
